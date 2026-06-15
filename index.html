@@ -34,6 +34,12 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(8,20,24,.8
 .hwrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px 20px}
 .logo-link:focus-visible{outline:3px solid var(--gold);outline-offset:4px;border-radius:6px}
 .logo-link{cursor:pointer}
+/* logo dot animation */
+@keyframes logopulse{0%{opacity:.9}100%{opacity:.45}}
+@keyframes logoglowpulse{0%{opacity:.2}100%{opacity:.06}}
+.logo-ray{stroke-dasharray:4 4;stroke-dashoffset:0}
+.logo-core{animation:logopulse 1.4s ease-in-out infinite alternate}
+.logo-glow{animation:logoglowpulse 1.4s ease-in-out infinite alternate}
 
 /* ===== latent space easter-egg modal ===== */
 #lsModal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:24px}
@@ -75,8 +81,14 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(8,20,24,.8
 .rnode:hover .rtip{opacity:1}
 .gloss-btn{background:transparent;border:1px solid var(--line2);color:var(--dim);border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:600;letter-spacing:.03em;transition:all .2s;white-space:nowrap}
 .gloss-btn:hover{color:var(--aqua);border-color:var(--aqua)}
-@media(max-width:760px){.rail{display:none}.hwrap{justify-content:space-between}.mprog{display:inline}}
+@media(max-width:760px){.rail{display:none}.hwrap{justify-content:space-between;flex-wrap:wrap;gap:8px}.mprog{display:inline}}
 .mprog{display:none;font-family:var(--mono);font-size:12px;color:var(--aqua);font-weight:600;white-space:nowrap}
+/* mobile: shrink logo, stack buttons */
+@media(max-width:480px){
+  .logo-link svg{width:160px;height:54px}
+  .gloss-btn{font-size:11.5px;padding:5px 10px}
+  .hwrap{padding:8px 14px;gap:6px}
+}
 
 /* ---------- hero ---------- */
 #hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -110,6 +122,18 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(8,20,24,.8
 .hl{color:var(--aqua);font-weight:600}
 .hl2{color:var(--coral);font-weight:600}
 .takeaway{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(244,201,93,.07),transparent 70%);border-radius:0 12px 12px 0;padding:18px 22px;margin:34px 0}
+/* ---------- Go deeper disclosure ---------- */
+.godeeper{margin:30px 0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:rgba(94,234,212,.03)}
+.godeeper>summary{list-style:none;cursor:pointer;padding:16px 22px;display:flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:600;font-size:15px;color:var(--ink);transition:background .2s;user-select:none}
+.godeeper>summary::-webkit-details-marker{display:none}
+.godeeper>summary:hover{background:rgba(94,234,212,.06)}
+.godeeper>summary:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.gd-chev{width:18px;height:18px;flex:none;color:var(--aqua);transition:transform .25s}
+.godeeper[open] .gd-chev{transform:rotate(90deg)}
+.gd-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--aqua);background:rgba(94,234,212,.1);padding:3px 9px;border-radius:20px;flex:none}
+.gd-opt{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:400}
+.gd-body{padding:4px 22px 22px;border-top:1px solid var(--line)}
+.gd-body>*:first-child{margin-top:18px}
 .takeaway .tk{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .takeaway p{margin:0;color:var(--ink)}
 .ch-nav{display:flex;justify-content:space-between;align-items:center;margin-top:56px;padding-top:26px;border-top:1px solid var(--line)}
@@ -118,7 +142,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(8,20,24,.8
 .nav-btn.primary{background:var(--aqua);color:#062622;border-color:var(--aqua)}
 .nav-btn.primary:hover{box-shadow:0 6px 24px rgba(94,234,212,.3)}
 .nav-btn:disabled{opacity:.35;cursor:default;transform:none}
-.nav-mid{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.nav-mid{font-family:var(--mono);font-size:12px;color:var(--faint);text-align:center;flex:1;padding:0 8px;min-width:0}
+@media(max-width:480px){.ch-nav{flex-wrap:wrap;gap:10px;justify-content:center}.nav-mid{order:-1;width:100%;padding-bottom:4px}.nav-btn{flex:1;justify-content:center}}
 
 /* ---------- demo cards ---------- */
 .demo{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px;margin:30px 0;position:relative;overflow:hidden}
@@ -410,7 +435,7 @@ footer{border-top:1px solid var(--line);padding:30px 20px;text-align:center;colo
 .spec-stop{position:absolute;top:50%;transform:translate(-50%,-50%);cursor:pointer;padding:8px}
 .spec-stop .sd{width:24px;height:24px;border-radius:50%;background:var(--bg0);border:2.5px solid var(--dim);transition:all .25s;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--dim)}
 .spec-stop:hover .sd{border-color:var(--ink);color:var(--ink)}
-.spec-stop.on .sd{border-color:#fff;color:#fff;background:rgba(255,255,255,.12);transform:scale(1.2);box-shadow:0 0 12px rgba(255,255,255,.45)}
+.spec-stop.on .sd{border-color:#fff;color:#fff;background:var(--bg0);transform:scale(1.2);box-shadow:0 0 12px rgba(255,255,255,.45)}
 .spec-names{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
 .spec-name{flex:1;min-width:120px;background:var(--bg0);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-family:var(--mono);font-size:11px;line-height:1.35;color:var(--faint);text-align:center;transition:all .2s;cursor:pointer}
 .spec-name:hover{color:var(--ink);border-color:var(--line2)}
@@ -613,10 +638,10 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
         <!-- Glow + axis -->
         <circle cx="68" cy="79" r="22" fill="url(#lglow)"/>
         <line x1="28" y1="79" x2="72" y2="79" stroke="#5eead4" stroke-width="1.0" opacity="0.55"/>
-        <circle cx="68" cy="79" r="4.0" fill="#5eead4" opacity="0.20" filter="url(#lblur)"/>
-        <circle cx="68" cy="79" r="2.6" fill="#5eead4" opacity="0.90" filter="url(#lglow-f)"/>
+        <circle cx="68" cy="79" r="4.0" fill="#5eead4" opacity="0.20" filter="url(#lblur)" class="logo-glow"/>
+        <circle cx="68" cy="79" r="2.6" fill="#5eead4" opacity="0.90" filter="url(#lglow-f)" class="logo-core"/>
         <circle cx="68" cy="79" r="1.2" fill="#e9f4f1"/>
-        <line x1="28" y1="75" x2="28" y2="83" stroke="#5eead4" stroke-width="1.0" opacity="0.45"/>
+        <line x1="28" y1="75" x2="28" y2="83" stroke="#5eead4" stroke-width="1.0" opacity="0.45" class="logo-ray"/>
         <!-- Hairline separator -->
         <line x1="186" y1="50" x2="186" y2="125" stroke="#5eead4" stroke-width="0.8" opacity="0.35"/>
         <!-- Wordmark -->
@@ -690,17 +715,27 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
 <section class="chapter" data-ch="1">
   <div class="ch-eyebrow">Chapter 02 / 10</div>
   <h2>Seventy years in seven moments</h2>
-  <p class="lede">AI's history isn't a smooth ascent. It's a cycle of bold promises, hard winters, and one decisive turning point in 2017. Click each moment to expand it.</p>
+  <p class="lede">AI's history isn't a smooth ascent. It's a cycle of bold promises and hard "winters", with one decisive turning point: the <b>2017 transformer</b>. The core ideas are old — what changed recently is <b>scale</b>.</p>
 
+  <h3>Why did it take so long?</h3>
+  <p>The core ideas behind today's AI — neural networks, learning from data — date to the <b>1940s–60s</b>. What was missing for half a century was not insight but <b>scale</b>: enough computing power, enough digital data, and an architecture able to exploit both. All three arrived together in the 2010s, and progress that had crawled for decades suddenly compounded.</p>
+
+  <details class="godeeper">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      The full timeline — twelve moments from Turing to now
+      <span class="gd-opt">optional · ~3 min</span>
+    </summary>
+    <div class="gd-body">
   <div class="demo">
     <div class="demo-tag">Interactive timeline</div>
     <h3 class="demo-h">The road to now</h3>
     <p class="dsub">Tap any event. Grey nodes mark the "AI winters" — periods when funding and faith collapsed.</p>
     <div class="tl" id="timeline"></div>
   </div>
-
-  <h3>Why did it take so long?</h3>
-  <p>The core ideas behind today's AI — neural networks, learning from data — date to the <b>1940s–60s</b>. What was missing for half a century was not insight but <b>scale</b>: enough computing power, enough digital data, and an architecture able to exploit both. All three arrived together in the 2010s, and progress that had crawled for decades suddenly compounded.</p>
+    </div>
+  </details>
 
   <div class="takeaway"><div class="tk">Key takeaway</div><p>Modern AI is old ideas meeting new scale. The 2017 transformer paper plus a million-fold increase in compute turned a sixty-year-old concept into the defining technology of the decade.</p></div>
 </section>
@@ -780,7 +815,14 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
 
   <p>Notice what happened with the marketing email if you revealed the trained values — it lands near the middle, genuinely ambiguous. Models don't deal in certainties; they output <b>degrees of confidence</b>, and someone must decide where to draw the line. That decision is human, and it's where policy lives.</p>
 
-  <h3>From four knobs to a trillion</h3>
+  <details class="godeeper" ontoggle="if(this.open)setTimeout(function(){if(typeof animateBars===&quot;function&quot;)animateBars()},120)">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      From four knobs to a trillion
+      <span class="gd-opt">optional · ~2 min</span>
+    </summary>
+    <div class="gd-body">
   <p>Scale up the same idea — weighted evidence, layered judgements — and capability grows in ways nobody fully predicted. The bars below are on a <b>logarithmic scale</b>: each step rightward is roughly a 10× jump.</p>
 
   <div class="demo">
@@ -790,6 +832,8 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
     <div class="why"><span class="wl">Why this matters</span>The architecture barely changed across most of this span — what changed was the number of dials. The leap from the first bar to the last is a factor of about <b>four billion</b>. Much of the last decade's progress is captured in this one idea: the same machinery, scaled up, kept producing abilities nobody explicitly built in.</div>
     <div class="bars" id="bars"></div>
   </div>
+    </div>
+  </details>
 
   <div class="takeaway"><div class="tk">Key takeaway</div><p>A parameter is an adjustable number weighing one piece of evidence. Models are vast stacks of them, tuned by training rather than set by people. "Bigger model" literally means "more dials" — and more dials, with enough data, has so far meant more capability.</p></div>
 </section>
@@ -854,6 +898,14 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
   <h3>The problem it solved</h3>
   <p>Earlier language models read text like a narrow torch beam — one word at a time, left to right, with fading memory of what came before. By the end of a long sentence, the beginning had blurred. The transformer's breakthrough, <span class="hl">attention</span>, lets every word look directly at <b>every other word at once</b> and decide which ones matter for its meaning.</p>
 
+  <details class="godeeper" ontoggle="if(this.open)setTimeout(()=>{if(typeof buildAttn==='function')buildAttn();},120)">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      See attention in action — resolving an ambiguous word
+      <span class="gd-opt">optional · ~2 min</span>
+    </summary>
+    <div class="gd-body">
   <div class="demo">
     <div class="demo-tag">Interactive · click a word</div>
     <h3 class="demo-h">How a model resolves the word "it"</h3>
@@ -870,6 +922,8 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
   </div>
 
   <p>"The animal didn't cross the street because it was too <b>tired</b>" — <i>it</i> must mean the animal. Change <i>tired</i> to <i>wide</i> and <i>it</i> must mean the street. No rule was written for this. The model learned, from billions of sentences, which words illuminate which. Attention is computed in parallel across the whole text, which also made transformers dramatically faster to train on modern chips — and that efficiency is what unlocked the era of scale.</p>
+    </div>
+  </details>
 
   <h3>Why this changed everything</h3>
   <ul class="tight">
@@ -920,6 +974,14 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
   <p>The distinction matters. When you ask a model a question and read the answer, you are in control: you evaluate it, decide what to do, and act. An <span class="hl">agentic</span> system collapses that gap. Given a goal, it breaks the task into steps, calls tools (web search, code execution, email, databases), checks its own progress, and loops until done — often without a human seeing each step.</p>
   <p>The analogy from the leave-behind still holds, but it shifts: this is no longer the brilliant intern who hands you a draft. It's the intern who has been given a key to the filing cabinet, access to the email system, and told to handle it.</p>
 
+  <details class="godeeper">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      Step through a real agentic loop, stage by stage
+      <span class="gd-opt">optional · ~3 min</span>
+    </summary>
+    <div class="gd-body">
   <div class="demo">
     <div class="demo-tag">Interactive · step through it</div>
     <h3 class="demo-h">Inside an agentic loop</h3>
@@ -935,6 +997,8 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
     </div>
     <div class="readout" id="loopRead" aria-live="polite" aria-atomic="true" style="margin-top:12px;display:none"></div>
   </div>
+    </div>
+  </details>
 
   <h3>The building blocks: what makes a system agentic</h3>
   <ul class="tight">
@@ -977,7 +1041,17 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
 
   <h3>Where this is heading: the human role shrinks</h3>
   <p>Follow the logic forward and an uncomfortable picture emerges. As agents become more reliable, the economic pressure is always the same — let them handle more, and have humans touch less. Across many business processes, the human role is migrating from <b>doing the work</b>, to <b>reviewing the work</b>, to <b>occasionally auditing a sample of the work</b>, to — in some cases — <b>being notified that work happened</b>.</p>
-  <p>This isn't speculation about distant AGI; it's the near-term trajectory of processes that are <i>already</i> being automated. Click through the stages below to see how a leader's involvement in a routine process typically erodes.</p>
+  <p>This isn't speculation about distant AGI; it's the near-term trajectory of processes that are <i>already</i> being automated.</p>
+
+  <details class="godeeper">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      Watch the human role erode, stage by stage
+      <span class="gd-opt">optional · ~3 min</span>
+    </summary>
+    <div class="gd-body">
+  <p>Click through the stages below to see how a leader's involvement in a routine process typically erodes.</p>
 
   <div class="demo">
     <div class="demo-tag">Interactive · click the stages</div>
@@ -998,21 +1072,20 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
     <li><b>Skill erosion.</b> If agents handle all the routine cases, people lose the fluency that let them judge the hard ones. The expertise needed to oversee the system is exactly the expertise the system stops you practising.</li>
     <li><b>Accountability without authority.</b> A named human remains "accountable" on paper, but has neither the time nor the information to meaningfully intervene. They carry the risk without holding the controls — the worst of both worlds.</li>
   </ul>
-
-  <div class="contrast">
-    <div class="contrast-card then">
-      <div class="cc-when">A process today</div>
-      <p>A caseworker reviews each application, applies judgement, and decides. Slow, variable between individuals, but <b>every decision has an owner who understood it</b>.</p>
     </div>
-    <div class="contrast-card now">
-      <div class="cc-when">The same process, agentic</div>
-      <p>An agent processes thousands of applications overnight. A human "oversees" a dashboard. Fast and consistent — but <b>no individual decision has a person who genuinely weighed it</b>.</p>
-    </div>
-  </div>
+  </details>
 
   <h3>Why agentic AI breaks the governance model</h3>
   <p>Most organisational governance was designed around a quiet assumption: that somewhere in every process there is <b>a human, a decision, and a reviewable artefact</b>. Agentic systems dissolve all three. The controls we trust were built for a world that agents don't operate in — which is why this is not a problem you can buy your way out of with better technology.</p>
 
+  <details class="godeeper">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      The five controls agents break — and how
+      <span class="gd-opt">optional · ~2 min</span>
+    </summary>
+    <div class="gd-body">
   <div class="demo">
     <div class="demo-tag">The assumptions that break</div>
     <h3 class="demo-h">Old control → what agents do to it</h3>
@@ -1024,10 +1097,20 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
     <div class="brk"><div class="bcol b-old"><b>Accountability.</b> A named person answerable for outcomes.</div><div class="b-arrow">→</div><div class="bcol b-new"><b>Responsibility blurs</b> across the model vendor, the orchestration team and the "owner" who never saw the decision. Everyone is accountable; no one is answerable.</div></div>
     <div class="readout" style="margin-top:14px">None of these are solved by a better model. They are solved by <b>redesigning how work, oversight and accountability are structured</b> — a governance and organisational-design task, not a technical one.</div>
   </div>
+    </div>
+  </details>
 
   <h3>It's a people and governance problem, not just a tech one</h3>
   <p>This is the heart of it. Organisations instinctively treat AI adoption as a technology programme — procure the tool, integrate it, train people to use it. But the failures of agentic AI mostly come from the <i>other two</i> dimensions. Success depends on three pillars, and the technology is the one most organisations over-weight.</p>
 
+  <details class="godeeper">
+    <summary>
+      <svg class="gd-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="gd-tag">Go deeper</span>
+      The three pillars — where success is actually decided
+      <span class="gd-opt">optional · ~2 min</span>
+    </summary>
+    <div class="gd-body">
   <div class="demo">
     <div class="demo-tag">The three pillars</div>
     <h3 class="demo-h">Where success is actually decided</h3>
@@ -1060,6 +1143,8 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
     </div>
     <div class="readout">Illustrative proportions, not survey data — the pattern, not the precision, is the message. The agentic failures that make headlines almost always trace back to the right-hand two columns.</div>
   </div>
+    </div>
+  </details>
 
   <h3>The people capability gap</h3>
   <p>"Upskilling for AI" is usually pitched as teaching staff to <i>use</i> the tools. The harder, more important capability is teaching an organisation to <b>oversee systems that act on its behalf</b> — a genuinely new competence that most workforces don't yet have. It spans new skills, new roles and a cultural shift:</p>
@@ -1230,9 +1315,7 @@ function show(i){
   window.scrollTo(0,0);
   if(cur===2) setTimeout(drawFit,60);
   if(cur===9) setTimeout(buildSummary,60);
-  if(cur===3) setTimeout(animateBars,400);
   if(cur===3) setTimeout(()=>{if(typeof spamCalc==='function')spamCalc();},80);
-  if(cur===5) setTimeout(()=>{buildAttn();},400);
   const mp=document.getElementById('mProg'); if(mp)mp.textContent=`Ch ${cur+1} / ${N}`;
   document.querySelectorAll('.sb-item').forEach(b=>{const k=+b.dataset.i;
     b.classList.toggle('active',k===cur); b.classList.toggle('visited',visited.has(k)&&k!==cur);});
@@ -1793,8 +1876,9 @@ function lsRunAnim(){
         const ax=(a.cx+Math.cos(ang)*0.028*rad)*W,ay=(a.cy+Math.sin(ang)*0.028*rad)*H;
         const aa=along+(Math.random()-0.5)*0.07,dd=0.12+Math.random()*0.66;
         const pX=plane.O.x+aa*plane.u.x+dd*plane.v.x,pY=plane.O.y+aa*plane.u.y+dd*plane.v.y;
-        pts.push({ai,sx,sy,ax,ay,pX,pY,x:sx,y:sy,r:(0.9+Math.random()*1.7)*DPR2,
-          drift:Math.random()*7,ds:0.4+Math.random()*0.7,hub:i===0});}});
+        const dr=Math.random()*7,ds=0.4+Math.random()*0.7;
+        pts.push({ai,sx,sy,ax,ay,pX,pY,x:sx+Math.cos(dr)*5*DPR2,y:sy+Math.sin(dr*1.2)*5*DPR2,r:(0.9+Math.random()*1.7)*DPR2,
+          drift:dr,ds,hub:i===0});}});
   }
   const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,lerp=(a,b,t)=>a+(b-a)*t;
   function drawPlane(a){if(a<=0)return;const {O,u,v}=plane;
@@ -1818,23 +1902,28 @@ function lsRunAnim(){
   function drawRipples(now){ripples=ripples.filter(r=>now-r.t<1400);
     ripples.forEach(r=>{const k=(now-r.t)/1400;ctx.strokeStyle=`rgba(94,234,212,${0.25*(1-k)})`;ctx.lineWidth=1*DPR2;
       ctx.beginPath();ctx.arc(r.x,r.y,k*r.max,0,7);ctx.stroke();});}
-  build();
   if(reduced){
-    drawPlane(1);drawConverge(0.8);pts.forEach(p=>{p.x=p.pX;p.y=p.pY;drawPoint(p,p.hub?0.9:0.6);});drawFocus(1,1);return;
+    build();drawPlane(1);drawConverge(0.8);pts.forEach(p=>{p.x=p.pX;p.y=p.pY;drawPoint(p,p.hub?0.9:0.6);});drawFocus(1,1);return;
   }
-  const T1=1500,T2=3300,T3=5300;let aggDone=false,alignDone=false;
+  const T1=1500,T2=3300,T3=5300;let aggDone=false,alignDone=false,captured=false;
   if(lsRaf)cancelAnimationFrame(lsRaf);
+  let primed=false;
   function frame(now){
-    if(!tStart){tStart=now;ripples.push({x:cv.width*0.5,y:cv.height*0.45,t:now,max:cv.width*0.4});}
+    if(!primed){build();tStart=now;primed=true;ripples.push({x:cv.width*0.5,y:cv.height*0.45,t:now,max:cv.width*0.4});
+      ctx.clearRect(0,0,cv.width,cv.height);
+      pts.forEach(p=>{drawPoint(p,0.15);});
+      lsRaf=requestAnimationFrame(frame);return;}
+    if(!tStart){tStart=now;}
     const t=now-tStart,W=cv.width,H=cv.height;
     ctx.clearRect(0,0,W,H);
     const breath=0.78+0.22*Math.sin(now/1100);
     if(t<T1){
-      pts.forEach(p=>{p.drift+=0.012*p.ds;p.x=p.sx+Math.cos(p.drift)*5*DPR2;p.y=p.sy+Math.sin(p.drift*1.2)*5*DPR2;drawPoint(p,0.15*breath);});
+      pts.forEach(p=>{p.x=p.sx+Math.cos(p.drift)*5*DPR2;p.y=p.sy+Math.sin(p.drift*1.2)*5*DPR2;drawPoint(p,0.15*breath);p.drift+=0.012*p.ds;});
       if(t>T1*0.55&&ripples.length<2)ripples.push({x:W*0.5,y:H*0.45,t:now,max:W*0.45});
     } else if(t<T2){
+      if(!captured){captured=true;pts.forEach(p=>{p.fx=p.x;p.fy=p.y;});}
       const k=ease((t-T1)/(T2-T1));
-      pts.forEach(p=>{p.x=lerp(p.sx,p.ax,k);p.y=lerp(p.sy,p.ay,k);drawPoint(p,0.2+0.5*k);});
+      pts.forEach(p=>{p.x=lerp(p.fx,p.ax,k);p.y=lerp(p.fy,p.ay,k);drawPoint(p,0.2+0.5*k);});
       if(!aggDone&&k>0.96){aggDone=true;AREAS.forEach(a=>ripples.push({x:a.cx*W,y:a.cy*H,t:now,max:W*0.18}));}
     } else if(t<T3){
       const k=ease((t-T2)/(T3-T2));drawPlane(k);drawConverge(k*0.8);
