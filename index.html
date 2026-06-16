@@ -81,19 +81,19 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(8,20,24,.8
 .rnode:hover .rtip{opacity:1}
 .gloss-btn{background:transparent;border:1px solid var(--line2);color:var(--dim);border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:600;letter-spacing:.03em;transition:all .2s;white-space:nowrap}
 .gloss-btn:hover{color:var(--aqua);border-color:var(--aqua)}
-@media(max-width:760px){.rail{display:none}.hwrap{justify-content:space-between;flex-wrap:wrap;gap:8px}.mprog{display:inline}}
+@media(max-width:760px){.rail{display:none}.hwrap{justify-content:space-between;flex-wrap:wrap;gap:8px}.mprog{display:inline}.logo-link svg{width:150px;height:50px}.gloss-btn{padding:6px 9px;font-size:11.5px;letter-spacing:0}.fs-t{display:none}}
 .mprog{display:none;font-family:var(--mono);font-size:12px;color:var(--aqua);font-weight:600;white-space:nowrap}
 /* mobile: shrink logo, stack buttons */
 @media(max-width:480px){
-  .logo-link svg{width:160px;height:54px}
-  .gloss-btn{font-size:11.5px;padding:5px 10px}
-  .hwrap{padding:8px 14px;gap:6px}
+  .logo-link svg{width:140px;height:47px}
+  .gloss-btn{font-size:11px;padding:5px 8px}
+  .hwrap{padding:8px 12px;gap:6px}
 }
 
 /* ---------- hero ---------- */
-#hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-top:108px}
 #net{position:absolute;inset:0;width:100%;height:100%}
-.hero-in{position:relative;z-index:2;text-align:center;padding:90px 24px 60px;max-width:780px}
+.hero-in{position:relative;z-index:2;text-align:center;padding:32px 24px 60px;max-width:780px}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua);margin-bottom:18px}
 #hero h1{font-size:clamp(40px,7.2vw,76px);font-weight:800;letter-spacing:-.02em}
 #hero h1 .g{background:linear-gradient(95deg,var(--aqua),#8be9ff 55%,var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -565,9 +565,10 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
 <div id="device-picker" role="dialog" aria-modal="true" aria-labelledby="dp-title">
   <div class="dp-card">
     <div class="dp-logo">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Latent Space">
-        <text x="0" y="58" font-family="Sora,system-ui,sans-serif" font-size="52" font-weight="800" fill="#5eead4">Latent</text>
-        <text x="0" y="78" font-family="Sora,system-ui,sans-serif" font-size="18" font-weight="300" fill="#9db8b4" letter-spacing="6">SPACE</text>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" role="img" aria-label="Latent Space Productions">
+        <text x="0" y="52" font-family="Sora,system-ui,sans-serif" font-size="52" font-weight="800" fill="#5eead4">Latent</text>
+        <text x="0" y="72" font-family="Sora,system-ui,sans-serif" font-size="18" font-weight="300" fill="#9db8b4" letter-spacing="6">SPACE</text>
+        <text x="2" y="90" font-family="Sora,system-ui,sans-serif" font-size="10" font-weight="300" fill="#5eead4" letter-spacing="5.5" opacity="0.70">productions</text>
       </svg>
     </div>
     <h2 id="dp-title">What are you using today?</h2>
@@ -654,6 +655,7 @@ body.dev-desktop h1{font-size:clamp(36px,4vw,54px)}
     <span class="mprog" id="mProg"></span>
     <button class="gloss-btn" onclick="openAnalogies()">Analogies</button>
     <button class="gloss-btn" onclick="openGloss()">Glossary</button>
+    <button class="gloss-btn" id="fsBtn" onclick="toggleFS()" aria-label="Toggle full screen" title="Toggle full screen"><span class="fs-i">⛶</span><span class="fs-t"> Fullscreen</span></button>
   </div>
 </header>
 
@@ -1902,9 +1904,6 @@ function lsRunAnim(){
   function drawRipples(now){ripples=ripples.filter(r=>now-r.t<1400);
     ripples.forEach(r=>{const k=(now-r.t)/1400;ctx.strokeStyle=`rgba(94,234,212,${0.25*(1-k)})`;ctx.lineWidth=1*DPR2;
       ctx.beginPath();ctx.arc(r.x,r.y,k*r.max,0,7);ctx.stroke();});}
-  if(reduced){
-    build();drawPlane(1);drawConverge(0.8);pts.forEach(p=>{p.x=p.pX;p.y=p.pY;drawPoint(p,p.hub?0.9:0.6);});drawFocus(1,1);return;
-  }
   const T1=1500,T2=3300,T3=5300;let aggDone=false,alignDone=false,captured=false;
   if(lsRaf)cancelAnimationFrame(lsRaf);
   let primed=false;
@@ -2076,6 +2075,22 @@ document.addEventListener('keydown',e=>{
     else if(!e.shiftKey&&document.activeElement===last){first.focus();e.preventDefault();}
   }
 });
+
+/* ================= fullscreen toggle ================= */
+function toggleFS(){
+  const d=document, el=d.documentElement;
+  const fs=d.fullscreenElement||d.webkitFullscreenElement;
+  if(!fs)(el.requestFullscreen||el.webkitRequestFullscreen).call(el);
+  else (d.exitFullscreen||d.webkitExitFullscreen).call(d);
+}
+function fsSync(){
+  const fs=document.fullscreenElement||document.webkitFullscreenElement;
+  const t=document.querySelector('#fsBtn .fs-t'); if(t)t.textContent=fs?' Exit full screen':' Fullscreen';
+}
+document.addEventListener('fullscreenchange',fsSync);
+document.addEventListener('webkitfullscreenchange',fsSync);
+(function(){const el=document.documentElement,b=document.getElementById('fsBtn');
+  if(b&&!(el.requestFullscreen||el.webkitRequestFullscreen))b.style.display='none';})();
 </script>
 </body>
 </html>
